@@ -27,6 +27,6 @@ data "oci_identity_region_subscriptions" "home_region_subscriptions" {
 
 locals {
   release = "1.0"
-  /********** Compartment OCID Local Accessor **********/
+  # Compartment OCID Local Accessor
   parent_compartment_id = length(data.oci_identity_compartments.PARENTCOMPARTMENT.compartments) > 0 ? lookup(data.oci_identity_compartments.PARENTCOMPARTMENT.compartments[0], "id") : null
 }
