@@ -13,6 +13,7 @@ The folllowing is the reference architecture associated to this brick
 ### Prerequisites
 - OCID of Root Compartment
 
+---
 ## Sample tfvar file
 
 If the compartment is child of root:
@@ -68,6 +69,7 @@ enable_delete = true
 - You can nest up to six level of depness in compartments. Avoid using deeper nesting as IAM policies will fail to work
 - You can create as many compartments as needed, always respecting the nesting limitations
 
+---
 
 ## Sample provider
 The following is the base provider definition to be used with this module
@@ -95,6 +97,7 @@ provider "oci" {
   disable_auto_retries = "true"
 }
 ```
+---
 
 ## Variable documentation
 ## Requirements
