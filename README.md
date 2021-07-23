@@ -68,6 +68,7 @@ enable_delete = true
 - In both cases, the variable `enable_delete` should be set to `true` if eventually compartments are required to be deleted programatically using terraform. This variable by default is `false`
 - You can nest up to six level of depness in compartments. Avoid using deeper nesting as IAM policies will fail to work
 - You can create as many compartments as needed, always respecting the nesting limitations
+- Always create compartments with unique names. This is mandatory for bricks framework to work properly
 
 ---
 
