@@ -12,11 +12,4 @@ resource "oci_identity_compartment" "Compartment" {
   name           = var.compartment_name
   compartment_id = var.is_root_parent == true ? var.root_compartment_ocid : local.parent_compartment_id
   enable_delete  = var.enable_delete
-
-  lifecycle {
-    ignore_changes = [defined_tags["Oracle-Tags.CreatedBy"], defined_tags["Oracle-Tags.CreatedOn"]]
-  }
-  defined_tags = {
-    "${oci_identity_tag_namespace.devrel.name}.${oci_identity_tag.release.name}" = local.release
-  }
 }
