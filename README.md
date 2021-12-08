@@ -35,6 +35,7 @@ root_compartment_ocid   = "ocid1.root.compartment"
 compartment_name        = "COMPARTMENT_NAME"
 compartment_description = "COMPARTMENT_DESCRIPTION"
 enable_delete           = true
+sleep_timer  = 60
 ########## ARTIFACT SPECIFIC VARIABLES ##########
 ########## SAMPLE TFVAR FILE ##########
 ########## ROOT PARENT ##########
@@ -58,6 +59,7 @@ parent_compartment_name = "DISPLAY_NAME_OF_PARENT_COMPARTMENT"
 compartment_name = "COMPARTMENT_NAME"
 compartment_description = "COMPARTMENT_DESCRIPTION"
 enable_delete = true
+sleep_timer  = 60
 ########## ARTIFACT SPECIFIC VARIABLES ##########
 ########## SAMPLE TFVAR FILE ##########
 ########## NOT ROOT PARENT ##########
@@ -69,6 +71,7 @@ enable_delete = true
 - You can nest up to six level of depness in compartments. Avoid using deeper nesting as IAM policies will fail to work
 - You can create as many compartments as needed, always respecting the nesting limitations
 - Always create compartments with unique names. This is mandatory for bricks framework to work properly
+- Variable `sleep_timer` provides a mean to delay the dependant creation of further child compartments giving time for full creation. By default this value is set to 60 seconds. It can be increased depending on needs. 
 
 ---
 
@@ -106,14 +109,15 @@ provider "oci" {
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.5 |
+| <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 4.36.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | 4.36.0 |
-| <a name="provider_oci.home"></a> [oci.home](#provider\_oci.home) | 4.36.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
+| <a name="provider_null"></a> [null](#provider\_null) | 3.1.0 |
+| <a name="provider_oci"></a> [oci](#provider\_oci) | 4.55.0 |
+| <a name="provider_oci.home"></a> [oci.home](#provider\_oci.home) | 4.55.0 |
 
 ## Modules
 
@@ -123,39 +127,8 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [null_resource.timer](https://registry.terraform.io/providers/hashicorp/null/latest/docs/resources/resource) | resource |
 | [oci_identity_compartment.Compartment](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/identity_compartment) | resource |
-| [oci_identity_tag.release](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/identity_tag) | resource |
-| [oci_identity_tag_namespace.devrel](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/identity_tag_namespace) | resource |
-| [random_id.tag](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
-| [oci_identity_compartments.PARENTCOMPARTMENT](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/data-sources/identity_compartments) | data source |
-| [oci_identity_region_subscriptions.home_region_subscriptions](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/data-sources/identity_region_subscriptions) | data sou
-[opc@dalquintdevhubscl terraform-oci-cloudbricks-compartment]$ terraform-docs markdown . 
-## Requirements
-
-| Name | Version |
-|------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.5 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_oci"></a> [oci](#provider\_oci) | 4.36.0 |
-| <a name="provider_oci.home"></a> [oci.home](#provider\_oci.home) | 4.36.0 |
-| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
-
-## Modules
-
-No modules.
-
-## Resources
-
-| Name | Type |
-|------|------|
-| [oci_identity_compartment.Compartment](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/identity_compartment) | resource |
-| [oci_identity_tag.release](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/identity_tag) | resource |
-| [oci_identity_tag_namespace.devrel](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/resources/identity_tag_namespace) | resource |
-| [random_id.tag](https://registry.terraform.io/providers/hashicorp/random/latest/docs/resources/id) | resource |
 | [oci_identity_compartments.PARENTCOMPARTMENT](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/data-sources/identity_compartments) | data source |
 | [oci_identity_region_subscriptions.home_region_subscriptions](https://registry.terraform.io/providers/hashicorp/oci/latest/docs/data-sources/identity_region_subscriptions) | data source |
 
@@ -172,6 +145,7 @@ No modules.
 | <a name="input_private_key_path"></a> [private\_key\_path](#input\_private\_key\_path) | Private Key Absolute path location where terraform is executed | `any` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Target region where artifacts are going to be created | `any` | n/a | yes |
 | <a name="input_root_compartment_ocid"></a> [root\_compartment\_ocid](#input\_root\_compartment\_ocid) | Root Compartment OCID Descriptor | `any` | `null` | no |
+| <a name="input_sleep_timer"></a> [sleep\_timer](#input\_sleep\_timer) | Sleep timer in seconds to wait for compartment to be created | `number` | `60` | no |
 | <a name="input_tenancy_ocid"></a> [tenancy\_ocid](#input\_tenancy\_ocid) | OCID of tenancy | `any` | n/a | yes |
 | <a name="input_user_ocid"></a> [user\_ocid](#input\_user\_ocid) | User OCID in tenancy. | `any` | n/a | yes |
 
