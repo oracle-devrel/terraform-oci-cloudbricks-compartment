@@ -60,6 +60,11 @@ variable "enable_delete" {
 
 }
 
+variable "sleep_timer" {
+  description = "Sleep timer in seconds to wait for compartment to be created"
+  default     = 60
+}
+
 /********** Compartment Variables **********/
 
 /********** Brick Variables **********/

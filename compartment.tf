@@ -13,3 +13,10 @@ resource "oci_identity_compartment" "Compartment" {
   compartment_id = var.is_root_parent == true ? var.root_compartment_ocid : local.parent_compartment_id
   enable_delete  = var.enable_delete
 }
+resource "null_resource" "timer" {
+  depends_on = [oci_identity_compartment.Compartment]
+
+  provisioner "local-exec" {
+    command = "sleep ${var.sleep_timer}"
+  }
+}
