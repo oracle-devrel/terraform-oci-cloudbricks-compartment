@@ -35,11 +35,6 @@ variable "parent_compartment_name" {
   default     = ""
 }
 
-variable "root_compartment_ocid" {
-  description = "Root Compartment OCID Descriptor"
-  default     = null
-}
-
 variable "compartment_name" {
   description = "Compartment Display Name"
 }
@@ -48,16 +43,14 @@ variable "compartment_description" {
   description = "Compartment Description"
 }
 
-variable "is_root_parent" {
-  description = "Boolean that describes if either the root compartment is the parent of this compartment or not"
+variable "is_root_child" {
+  description = "Boolean that describes if the compartment is a child of root"
   default     = false
-
 }
 
 variable "enable_delete" {
   description = "Enables if Terraform is allowed to programatically delete this compartment upon invoking destroy command"
   default     = false
-
 }
 
 variable "sleep_timer" {

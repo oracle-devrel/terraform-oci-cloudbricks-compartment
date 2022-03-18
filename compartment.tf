@@ -10,9 +10,10 @@ resource "oci_identity_compartment" "Compartment" {
   provider       = oci.home
   description    = var.compartment_description
   name           = var.compartment_name
-  compartment_id = var.is_root_parent == true ? var.root_compartment_ocid : local.parent_compartment_id
+  compartment_id = var.is_root_child ? var.tenancy_ocid : local.parent_compartment_id
   enable_delete  = var.enable_delete
 }
+
 resource "null_resource" "timer" {
   depends_on = [oci_identity_compartment.Compartment]
 
