@@ -30,8 +30,7 @@ private_key_path = "/absolute/path/to/api/key/your_api_key.pem"
 ########## PROVIDER SPECIFIC VARIABLES ##########
 
 ########## ARTIFACT SPECIFIC VARIABLES ##########
-is_root_parent          = true
-root_compartment_ocid   = "ocid1.root.compartment"
+is_root_child           = true
 compartment_name        = "COMPARTMENT_NAME"
 compartment_description = "COMPARTMENT_DESCRIPTION"
 enable_delete           = true
@@ -66,7 +65,7 @@ sleep_timer  = 60
 ```
 
 ### Variable specific considerations
-- When creating a top level compartment depending on root, is mandatory that variable `is_root_compartment`is set to true and ocid of root compartment is passed on in variable `root_compartment_ocid`
+- When creating a top level compartment nested under on root, is mandatory that variable `is_root_child` is set to true.
 - In both cases, the variable `enable_delete` should be set to `true` if eventually compartments are required to be deleted programatically using terraform. This variable by default is `false`
 - You can nest up to six level of depness in compartments. Avoid using deeper nesting as IAM policies will fail to work
 - You can create as many compartments as needed, always respecting the nesting limitations
@@ -80,8 +79,9 @@ The following is the base provider definition to be used with this module
 
 ```shell
 terraform {
-  required_version = ">= 0.13.5"
+  required_version = ">= 1.0.0"
 }
+
 provider "oci" {
   region       = var.region
   tenancy_ocid = var.tenancy_ocid
@@ -108,7 +108,7 @@ provider "oci" {
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.5 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.0.0 |
 | <a name="requirement_oci"></a> [oci](#requirement\_oci) | >= 4.36.0 |
 
 ## Providers
@@ -140,11 +140,10 @@ No modules.
 | <a name="input_compartment_name"></a> [compartment\_name](#input\_compartment\_name) | Compartment Display Name | `any` | n/a | yes |
 | <a name="input_enable_delete"></a> [enable\_delete](#input\_enable\_delete) | Enables if Terraform is allowed to programatically delete this compartment upon invoking destroy command | `bool` | `false` | no |
 | <a name="input_fingerprint"></a> [fingerprint](#input\_fingerprint) | API Key Fingerprint for user\_ocid derived from public API Key imported in OCI User config | `any` | n/a | yes |
-| <a name="input_is_root_parent"></a> [is\_root\_parent](#input\_is\_root\_parent) | Boolean that describes if either the root compartment is the parent of this compartment or not | `bool` | `false` | no |
+| <a name="input_is_root_child"></a> [is\_root\_child](#input\_is\_root\_child) | Boolean that describes if the compartment is a child of root | `bool` | `false` | no |
 | <a name="input_parent_compartment_name"></a> [parent\_compartment\_name](#input\_parent\_compartment\_name) | Display name of Parent Compartment | `string` | `""` | no |
 | <a name="input_private_key_path"></a> [private\_key\_path](#input\_private\_key\_path) | Private Key Absolute path location where terraform is executed | `any` | n/a | yes |
 | <a name="input_region"></a> [region](#input\_region) | Target region where artifacts are going to be created | `any` | n/a | yes |
-| <a name="input_root_compartment_ocid"></a> [root\_compartment\_ocid](#input\_root\_compartment\_ocid) | Root Compartment OCID Descriptor | `any` | `null` | no |
 | <a name="input_sleep_timer"></a> [sleep\_timer](#input\_sleep\_timer) | Sleep timer in seconds to wait for compartment to be created | `number` | `60` | no |
 | <a name="input_tenancy_ocid"></a> [tenancy\_ocid](#input\_tenancy\_ocid) | OCID of tenancy | `any` | n/a | yes |
 | <a name="input_user_ocid"></a> [user\_ocid](#input\_user\_ocid) | User OCID in tenancy. | `any` | n/a | yes |
